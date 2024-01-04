@@ -1,5 +1,6 @@
 package me.amitshekhar.mvvm.ui.topheadline
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,12 +13,13 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
 import me.amitshekhar.mvvm.MVVMApplication
-import me.amitshekhar.mvvm.data.model.Article
 import me.amitshekhar.mvvm.data.model.Game
 import me.amitshekhar.mvvm.databinding.ActivityTopHeadlineBinding
 import me.amitshekhar.mvvm.di.component.DaggerActivityComponent
 import me.amitshekhar.mvvm.di.module.ActivityModule
 import me.amitshekhar.mvvm.ui.base.UiState
+import me.namnamnam.mvvm.ui.topheadline.LoginActivity
+import me.namnamnam.mvvm.ui.topheadline.viewmodel.GamesViewModel
 import javax.inject.Inject
 
 class TopHeadlineActivity : AppCompatActivity() {
@@ -43,6 +45,9 @@ class TopHeadlineActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupUI2()
         setupObserver2()
+        binding.frameLayout.setOnClickListener {
+            nextAct(LoginActivity::class.java)
+        }
     }
 
 //    private fun setupUI() {
@@ -140,4 +145,11 @@ class TopHeadlineActivity : AppCompatActivity() {
             .activityModule(ActivityModule(this)).build().inject(this)
     }
 
+    private fun nextAct(activity: Class<*>, bundle: Bundle? = null){
+        this.startActivity(Intent(this, activity).apply {
+            bundle?.let {
+                putExtras(bundle)
+            }
+        })
+    }
 }

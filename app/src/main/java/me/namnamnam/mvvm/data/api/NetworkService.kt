@@ -1,22 +1,22 @@
 package me.amitshekhar.mvvm.data.api
 
 import me.amitshekhar.mvvm.data.model.Game
-import me.amitshekhar.mvvm.data.model.Games
-import me.amitshekhar.mvvm.data.model.TopHeadlinesResponse
-import me.amitshekhar.mvvm.utils.AppConstant.API_KEY
-import retrofit2.Call
+import me.namnamnam.mvvm.data.model.User
 import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.Query
+import retrofit2.http.Path
 import javax.inject.Singleton
 
 @Singleton
 interface NetworkService {
 
-//    @Headers("X-Api-Key: $API_KEY")
-//    @GET("top-headlines")
-//    suspend fun getTopHeadlines(@Query("country") country: String): TopHeadlinesResponse
+    @GET("/users")
+    suspend fun getAllUsers(): List<User>
+
+    @GET("/users/{user_id}")
+    suspend fun getUserById(@Path("user_id") userId: Int): User
 
     @GET("games")
     suspend fun getGames(): List<Game>
+
+
 }

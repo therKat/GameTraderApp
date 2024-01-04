@@ -1,15 +1,7 @@
-package me.amitshekhar.mvvm.ui.topheadline
+package me.namnamnam.mvvm.ui.topheadline.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.launch
-import me.amitshekhar.mvvm.data.model.Article
 import me.amitshekhar.mvvm.data.repository.TopHeadlineRepository
-import me.amitshekhar.mvvm.ui.base.UiState
-import me.amitshekhar.mvvm.utils.AppConstant.COUNTRY
 
 class TopHeadlineViewModel(private val topHeadlineRepository: TopHeadlineRepository) : ViewModel() {
 

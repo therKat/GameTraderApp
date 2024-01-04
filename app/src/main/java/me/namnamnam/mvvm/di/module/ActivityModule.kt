@@ -6,13 +6,12 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Module
 import dagger.Provides
 import me.amitshekhar.mvvm.data.repository.GetGameRepository
-import me.amitshekhar.mvvm.data.repository.TopHeadlineRepository
 import me.amitshekhar.mvvm.di.ActivityContext
 import me.amitshekhar.mvvm.ui.base.ViewModelProviderFactory
 import me.amitshekhar.mvvm.ui.topheadline.GameAdapter
-import me.amitshekhar.mvvm.ui.topheadline.GamesViewModel
-import me.amitshekhar.mvvm.ui.topheadline.TopHeadlineAdapter
-import me.amitshekhar.mvvm.ui.topheadline.TopHeadlineViewModel
+import me.namnamnam.mvvm.data.repository.GetUserRepository
+import me.namnamnam.mvvm.ui.topheadline.viewmodel.GamesViewModel
+import me.namnamnam.mvvm.ui.topheadline.viewmodel.UsersViewModel
 
 @Module
 class ActivityModule(private val activity: AppCompatActivity) {
@@ -23,13 +22,20 @@ class ActivityModule(private val activity: AppCompatActivity) {
         return activity
     }
 
-//    @Provides
+    //    @Provides
 //    fun provideTopHeadlineViewModel(topHeadlineRepository: TopHeadlineRepository): TopHeadlineViewModel {
 //        return ViewModelProvider(activity,
 //            ViewModelProviderFactory(TopHeadlineViewModel::class) {
 //                TopHeadlineViewModel(topHeadlineRepository)
 //            })[TopHeadlineViewModel::class.java]
 //    }
+    @Provides
+    fun provideUserViewModel(getUserRepository: GetUserRepository): UsersViewModel {
+        return ViewModelProvider(activity,
+            ViewModelProviderFactory(UsersViewModel::class) {
+                UsersViewModel(getUserRepository)
+            })[UsersViewModel::class.java]
+    }
 
     @Provides
     fun provideGameViewModel(getGameRepository: GetGameRepository): GamesViewModel {
@@ -44,4 +50,6 @@ class ActivityModule(private val activity: AppCompatActivity) {
 
     @Provides
     fun provideGameAdapter() = GameAdapter(ArrayList())
+
+
 }

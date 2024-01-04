@@ -1,4 +1,4 @@
-package me.amitshekhar.mvvm.ui.topheadline
+package me.namnamnam.mvvm.ui.topheadline.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
-import me.amitshekhar.mvvm.data.model.Article
 import me.amitshekhar.mvvm.data.model.Game
 import me.amitshekhar.mvvm.data.repository.GetGameRepository
 import me.amitshekhar.mvvm.ui.base.UiState
