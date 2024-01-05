@@ -15,8 +15,12 @@ interface NetworkService {
     @GET("/users/{user_id}")
     suspend fun getUserById(@Path("user_id") userId: Int): User
 
-    @GET("games")
+    @GET("/games")
     suspend fun getGames(): List<Game>
 
+    @GET("transactions/user/{user_id}")
+    suspend fun getGamesByUserId(@Path("user_id") userId: Int): List<Game>
+//    @GET("/transactions/user/1")
+//    suspend fun getGamesByUserId(): List<Game>
 
 }

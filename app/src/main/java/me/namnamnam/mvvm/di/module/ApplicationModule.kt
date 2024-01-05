@@ -22,7 +22,7 @@ class ApplicationModule(private val application: MVVMApplication) {
 
     @BaseUrl
     @Provides
-    fun provideBaseUrl(): String = "http://192.168.31.130:5000/"
+    fun provideBaseUrl(): String = "http://172.31.98.252:5000/"
 
     @Provides
     @Singleton

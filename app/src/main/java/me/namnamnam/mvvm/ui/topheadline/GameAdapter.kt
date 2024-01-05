@@ -56,4 +56,10 @@ class GameAdapter(
     fun addData(list: List<Game>) {
         gameList.addAll(list)
     }
+
+    fun clearData() {
+        gameList.clear()
+        notifyDataSetChanged()
+    }
+
 }
