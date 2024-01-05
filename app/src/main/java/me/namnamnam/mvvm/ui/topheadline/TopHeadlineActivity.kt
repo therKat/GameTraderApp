@@ -45,7 +45,7 @@ class TopHeadlineActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupUI2()
         setupObserver2()
-        binding.frameLayout.setOnClickListener {
+        binding.btnAccount.setOnClickListener {
             nextAct(LoginActivity::class.java)
         }
     }
@@ -63,7 +63,7 @@ class TopHeadlineActivity : AppCompatActivity() {
 //    }
 
     private fun setupUI2() {
-        val recyclerView = binding.recyclerView2
+        val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.addItemDecoration(
             DividerItemDecoration(
