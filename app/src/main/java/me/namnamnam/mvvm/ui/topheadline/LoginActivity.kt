@@ -38,6 +38,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupObserver()
+        setupUi()
 
         binding.btnLogin.setOnClickListener {
 
@@ -49,14 +50,40 @@ class LoginActivity : AppCompatActivity() {
             if (loginResult.userId != null) {
                 saveLoggedInUserId(loginResult.userId)
                 val userName = loginResult.userName
-                firstTime()
+                firstTime(true)
                 Log.e("dakar911 123", getFirstTime().toString() )
                 showToast("Xin chào $userName")
                 nextAct(TopHeadlineActivity::class.java)
             } else {
                 showToast("Thông tin đăng nhập không chính xác!")
             }
+        }
+        binding.btnLogout.setOnClickListener {
+            binding.accountLayout.visibility = View.INVISIBLE
+            binding.loginLayout.visibility = View.VISIBLE
 
+            firstTime(false)
+        }
+        binding.btnBack.setOnClickListener {
+            nextAct(TopHeadlineActivity::class.java)
+        }
+    }
+
+    private fun setupUi() {
+        if(getFirstTime()){
+            binding.accountLayout.visibility = View.VISIBLE
+            binding.loginLayout.visibility = View.INVISIBLE
+        }else{
+            binding.accountLayout.visibility = View.INVISIBLE
+            binding.loginLayout.visibility = View.VISIBLE
+        }
+
+        usersViewModel.usersList.observe(this) { users ->
+            if (users.isNotEmpty()) {
+                val firstUser = users[0]
+                binding.tvName.text = firstUser.name
+                binding.tvEmail.text = firstUser.email
+            }
         }
     }
 
@@ -87,10 +114,10 @@ class LoginActivity : AppCompatActivity() {
         editor.apply()
     }
 
-    private fun firstTime(){
+    private fun firstTime(isFirstTime: Boolean){
         val sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.putBoolean(FIRST_TIME_KEY,true)
+        editor.putBoolean(FIRST_TIME_KEY,isFirstTime)
         editor.apply()
     }
 
