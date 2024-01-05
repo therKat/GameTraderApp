@@ -28,17 +28,19 @@ class UsersViewModel(private val getUserRepository: GetUserRepository):ViewModel
         _usersList.value = users
     }
 
-    fun login(email: String, password: String): Int? {
+    data class LoginResult(val userId: Int?, val userName: String?)
+
+    fun login(email: String, password: String): LoginResult {
         val userList = _usersList.value ?: emptyList()
 
         for (user in userList) {
             if (user.email == email && user.password == password) {
                 _loggedInUserId.value = user.id
-                return user.id
+                return LoginResult(user.id, user.name)
             }
         }
 
-        return null
+        return LoginResult(null, null)
     }
     init {
         fetchUsers()

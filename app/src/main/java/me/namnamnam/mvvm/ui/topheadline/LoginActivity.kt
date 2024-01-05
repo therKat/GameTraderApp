@@ -2,10 +2,12 @@ package me.namnamnam.mvvm.ui.topheadline
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -17,12 +19,14 @@ import me.amitshekhar.mvvm.di.component.DaggerActivityComponent
 import me.amitshekhar.mvvm.di.module.ActivityModule
 import me.amitshekhar.mvvm.ui.base.UiState
 import me.amitshekhar.mvvm.ui.topheadline.TopHeadlineActivity
-import me.namnamnam.mvvm.data.preferences.SharedPreferences
+import me.amitshekhar.mvvm.utils.AppConstant.FIRST_TIME_KEY
+import me.amitshekhar.mvvm.utils.AppConstant.LOGGED_IN_USER_ID
+import me.amitshekhar.mvvm.utils.AppConstant.PREFS_NAME
+import me.amitshekhar.mvvm.utils.AppConstant.USER_ID
 import me.namnamnam.mvvm.ui.topheadline.viewmodel.UsersViewModel
 import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity() {
-
     @Inject
     lateinit var usersViewModel: UsersViewModel
 
@@ -36,17 +40,23 @@ class LoginActivity : AppCompatActivity() {
         setupObserver()
 
         binding.btnLogin.setOnClickListener {
+
             val enteredEmail = binding.editTextEmail.text.toString()
             val enteredPassword = binding.editTextPassword.text.toString()
 
-            val loggedInUserId = usersViewModel.login(enteredEmail, enteredPassword)
+            val loginResult = usersViewModel.login(enteredEmail, enteredPassword)
 
-            if (loggedInUserId != null) {
-
-                Log.d("namnamnam", "Đăng nhập thành công! ID: $loggedInUserId")
+            if (loginResult.userId != null) {
+                saveLoggedInUserId(loginResult.userId)
+                val userName = loginResult.userName
+                firstTime()
+                Log.e("dakar911 123", getFirstTime().toString() )
+                showToast("Xin chào $userName")
+                nextAct(TopHeadlineActivity::class.java)
             } else {
-                Log.e("namnamnam", "Thông tin đăng nhập không chính xác!")
+                showToast("Thông tin đăng nhập không chính xác!")
             }
+
         }
     }
 
@@ -56,13 +66,13 @@ class LoginActivity : AppCompatActivity() {
                 usersViewModel.uiState.collect{
                     when(it){
                         is UiState.Success -> {
-                            Log.e("nam123", it.data.toString() )
+                            Log.e("dakar911", it.data.toString() )
                             usersViewModel.setUsersList(it.data)
                         }
                         is UiState.Loading -> {
                         }
                         is UiState.Error -> {
-                            Log.e("namnamnam 123", it.message)
+                            Log.e("dakar911", it.message)
                         }
                     }
                 }
@@ -73,8 +83,30 @@ class LoginActivity : AppCompatActivity() {
     private fun saveLoggedInUserId(loggedInUserId: Int) {
         val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.putInt("user_id", loggedInUserId)
+        editor.putInt(USER_ID, loggedInUserId)
         editor.apply()
+    }
+
+    private fun firstTime(){
+        val sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putBoolean(FIRST_TIME_KEY,true)
+        editor.apply()
+    }
+
+    private fun getFirstTime(): Boolean{
+        val sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return sharedPreferences.getBoolean(FIRST_TIME_KEY, false)
+    }
+
+
+    private fun getLoggedInUserId(): Int {
+        val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getInt(USER_ID, -1)
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun injectDependencies() {

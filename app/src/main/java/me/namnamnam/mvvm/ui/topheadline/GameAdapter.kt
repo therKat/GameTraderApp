@@ -18,7 +18,6 @@ class GameAdapter(
     class DataViewHolder(private val binding: GameItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(game: Game) {
-            Log.e("namnamnam adapter", game.name )
             binding.textViewTitle.text = game.name
             Glide.with(binding.imageViewBanner.context)
                 .load(game.images)
@@ -55,7 +54,6 @@ class GameAdapter(
     }
 
     fun addData(list: List<Game>) {
-        Log.e("namnamnam", list.toString() )
         gameList.addAll(list)
     }
 }

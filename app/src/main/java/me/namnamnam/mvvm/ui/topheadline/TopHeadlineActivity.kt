@@ -108,7 +108,6 @@ class TopHeadlineActivity : AppCompatActivity() {
                         is UiState.Success -> {
                             binding.progressBar.visibility = View.GONE
                             renderGameList(it.data)
-                            Log.e("namnamnam", "setupObserver2: ", )
                             binding.recyclerView.visibility = View.VISIBLE
                         }
                         is UiState.Loading -> {
@@ -120,7 +119,7 @@ class TopHeadlineActivity : AppCompatActivity() {
                             binding.progressBar.visibility = View.GONE
                             Toast.makeText(this@TopHeadlineActivity, it.message, Toast.LENGTH_LONG)
                                 .show()
-                            Log.e("namnamnam", it.message )
+                            Log.e("dakar911", it.message )
                         }
                     }
                 }
@@ -134,7 +133,7 @@ class TopHeadlineActivity : AppCompatActivity() {
 //    }
 
     private fun renderGameList(gameList: List<Game>) {
-        Log.e("namnamnam", gameList.toString() )
+        Log.e("dakar911", gameList.toString() )
         adapterGame.addData(gameList)
         adapterGame.notifyDataSetChanged()
     }
